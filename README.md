@@ -42,10 +42,13 @@ The minimal reference topology uses an API and worker on Azure Government VMs, B
 | [Azure Government verification](docs/azure-government-verification.md) | Current official evidence, endpoint mappings, unverified combinations and alternatives |
 | [Architecture decisions](docs/decision-records/README.md) | Small set of proposed decisions and tradeoffs |
 | [Interview guide](docs/interview-guide.md) | 90-second story, whiteboard route, answer outlines |
+| [Architecture explainer](docs/architecture-explainer.md) | Decision-by-decision rationale and likely follow-up questions, for live Q&A |
+| [Low-cost demo setup](docs/demo-setup.md) | Steps to build a working analog in your own commercial Azure subscription |
 | [Open questions](docs/open-questions.md) | Historical details to answer from memory |
 | [Source register](docs/sources.md) | Official sources attached to consequential product claims |
 | [Diagrams](diagrams/README.md) | Four standalone Mermaid sources and local rendering instructions |
 | [Synthetic examples](examples/README.md) | Illustrative input, derivative text, and restricted provenance manifest |
+| [Demo scripts](demo/README.md) | Runnable illustrative pipeline for the low-cost demo (not production code) |
 
 ## Reading and maintenance
 

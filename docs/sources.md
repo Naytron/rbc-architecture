@@ -80,6 +80,18 @@ General documentation identifies v4.0 (`2024-11-30`) as GA/current and v3.1 (`20
 
 The page was consulted, but the retrieved content did not expose the interactive regional service matrix. Exact regional availability, SKU capacity, and preview status could not be confirmed from that result. Record them as unverified, not as available or unavailable.
 
+## S14 - Document Intelligence Python SDK usage
+
+[azure-ai-documentintelligence readme](https://learn.microsoft.com/python/api/overview/azure/ai-documentintelligence-readme?view=azure-python)
+
+Documents the `DocumentIntelligenceClient` constructor, `begin_analyze_document("prebuilt-layout", body=f)` for local-file submission, `DefaultAzureCredential` usage (noting regional endpoints do not support it), and `page.width`/`page.height`/`page.unit`/`line.polygon`/`word.polygon` result fields. `demo/pipeline.py` follows this documented pattern; it has not been executed against a live Document Intelligence resource in this repository (see `demo/README.md`).
+
+## S15 - PyMuPDF redaction and document scrubbing
+
+[PyMuPDF `Page.apply_redactions()`](https://pymupdf.readthedocs.io/en/latest/page.html#Page.apply_redactions) and [`Document.scrub()`](https://pymupdf.readthedocs.io/en/latest/document.html#Document.scrub)
+
+Documents that `apply_redactions()` removes the underlying content within a redaction annotation's rectangle (not a visual-only overlay) and that `scrub()` can remove metadata, attachments, embedded files, JavaScript, and hidden text. `demo/pipeline.py` uses both and was tested locally end-to-end (see `demo/README.md`). This is one possible implementation choice among several compared in `docs/architecture.md`, not a claim that PyMuPDF was the customer's tool.
+
 ## Evidence boundaries
 
 Permanent PDF redaction, legal governance, API design, role separation, retry behavior, and evaluation gates here are **proposed requirements**, not claims about capabilities supplied by Document Intelligence. A selected PDF library would need its own documentation, license review, adversarial validation, and operational support evidence.
