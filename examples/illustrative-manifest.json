@@ -1,0 +1,65 @@
+{
+  "classification": "synthetic_illustrative_only",
+  "processingStatus": "not_processed",
+  "documentId": "SYNTHETIC-DOC-001",
+  "sourceHash": "PLACEHOLDER_NOT_COMPUTED",
+  "derivativeHash": "PLACEHOLDER_NOT_COMPUTED",
+  "policyVersion": "example-only-policy-v1",
+  "extraction": {
+    "modelId": "UNSELECTED",
+    "apiVersion": "UNSELECTED",
+    "operationId": "NOT_SUBMITTED",
+    "offsetConvention": "zero_based_unicode_code_points",
+    "canonicalText": "At 14:20, the report describes Person A as Black. Person A wore a green coat near Fictional Square.",
+    "pages": [
+      {
+        "pageNumber": 1,
+        "width": 8.5,
+        "height": 11.0,
+        "unit": "inch",
+        "angle": 0,
+        "geometryStatus": "invented_not_extracted"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "category": "explicit_race_reference",
+      "detector": "illustrative_rule",
+      "detectorVersion": "example-v1",
+      "span": {
+        "offset": 43,
+        "length": 5,
+        "text": "Black"
+      },
+      "regions": [
+        {
+          "pageNumber": 1,
+          "polygon": [4.0, 1.0, 4.4, 1.0, 4.4, 1.2, 4.0, 1.2]
+        }
+      ],
+      "proposedDisposition": "remove_subject_to_domain_approval",
+      "reason": "Explicit reference under the example-only policy"
+    }
+  ],
+  "contextReview": {
+    "possibleProxy": "Fictional Square",
+    "illustrativeDisposition": "retain_event_context_not_a_universal_rule",
+    "raceInferencePerformed": false
+  },
+  "rendering": {
+    "format": "illustrative_markdown_not_pdf",
+    "rendererVersion": "NOT_IMPLEMENTED",
+    "integrityValidation": "NOT_PERFORMED"
+  },
+  "approval": {
+    "status": "NOT_APPROVED",
+    "reviewer": "NONE"
+  },
+  "provenance": {
+    "purpose": "illustrate_derivative_lineage_not_legal_chain_of_custody",
+    "parentDocumentId": "SYNTHETIC-DOC-001",
+    "derivativeVersion": "example-v1",
+    "deliveryEligibility": "illustration_only_never_publish_as_processed"
+  }
+}

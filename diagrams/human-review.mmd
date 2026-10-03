@@ -1,0 +1,14 @@
+flowchart TD
+  Start["PROPOSED: extraction and detection"] --> Quality{"Complete text and mapped regions?"}
+  Quality -->|No| Hold["Hold with classified exception"]
+  Quality -->|Yes| Resolve["Specialist resolves candidates and ambiguity"]
+  Resolve --> Render["Render candidate derivative"]
+  Render --> Integrity{"Independent integrity checks pass?"}
+  Integrity -->|No| Hold
+  Integrity -->|Yes| Review{"Human approves meaning and exact version?"}
+  Review -->|No| Hold
+  Review -->|Yes| Publish["Publish approved version to authorized reviewers"]
+  Hold --> Triage{"Specialist disposition"}
+  Triage -->|Correct policy or regions| Resolve
+  Triage -->|Extraction repair| Start
+  Triage -->|Unsupported or unresolved| Manual["Approved manual process or remain held"]

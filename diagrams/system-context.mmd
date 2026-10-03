@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph Office["Office boundary - existing people and systems"]
+    Source["Approved source repository - type unknown"]
+    Steward["Authorized document steward"]
+    Reviewer["Charging reviewer"]
+    Specialist["Redaction specialist"]
+  end
+  subgraph Gov["Azure Government - PROPOSED"]
+    API["Ingestion and review API"]
+    Pipeline["Extract / detect / render / validate"]
+    Original["Protected originals"]
+    Derivative["Approved derivatives"]
+    Audit["Restricted audit and provenance"]
+    Identity["Government Entra identity"]
+  end
+  Source -->|Approved transfer| API
+  Steward -->|Authorized submission| API
+  Identity -.->|Token validation| API
+  API --> Original
+  API --> Pipeline
+  Original --> Pipeline
+  Pipeline -->|Candidate only| Derivative
+  Specialist -->|Privileged review via API| API
+  Reviewer -->|Case-scoped access via API| API
+  Derivative --> API
+  Pipeline --> Audit
+  API --> Audit

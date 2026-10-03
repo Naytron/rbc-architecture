@@ -1,0 +1,35 @@
+sequenceDiagram
+  autonumber
+  actor User as Authorized submitter
+  participant API as Proposed API
+  participant Store as Protected storage and ledger
+  participant Q as Proposed queue
+  participant W as Proposed worker
+  participant DI as Document Intelligence
+  actor Human as Redaction specialist
+  User->>API: Approved bytes and idempotency key
+  API->>API: Validate identity, case access and input
+  API->>Store: Persist original and pending-dispatch job
+  API-->>User: 202 with job reference
+  API->>Q: Dispatch persisted job reference
+  Q->>W: At-least-once delivery
+  W->>Store: Claim lease and read original
+  W->>DI: Submit bytes using service identity
+  DI-->>W: Operation reference
+  W->>Store: Checkpoint extraction operation
+  loop Until success or bounded failure
+    W->>DI: Poll result
+    DI-->>W: Status or text and geometry
+  end
+  W->>Store: Persist restricted extraction and candidates
+  W->>W: Detect references, render and validate candidate
+  alt Failure or uncertainty
+    W->>Store: Record held state and safe reason
+    Human->>API: Resolve or request controlled reprocessing
+  else Candidate ready
+    W->>Store: Store quarantined derivative and manifest
+    Human->>API: Approve exact validated version
+    API->>Store: Atomically mark approved
+  end
+  User->>API: Authorized status or approved-artifact request
+  API-->>User: Status or approved derivative only

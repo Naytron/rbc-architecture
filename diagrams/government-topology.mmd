@@ -1,0 +1,32 @@
+flowchart LR
+  Office["Office users and approved source"]
+  Entra["Government Entra - authority dependency"]
+  subgraph Gov["Azure Government - PROPOSED, region and SKUs gated"]
+    subgraph VNet["VNet trust boundary"]
+      API["API VM - HTTPS private ingress"]
+      Worker["Worker VM - managed identity"]
+      DNS["Private DNS and office forwarding"]
+      PE["Service private endpoints"]
+    end
+    DI["Document Intelligence - verified GA combination required"]
+    Queue["Service Bus Premium"]
+    Originals["Original Blob account"]
+    Outputs["Derivative Blob account"]
+    Control["Control Table and restricted Blob account"]
+    Vault["Key Vault - if secrets or CMK required"]
+    Ops["Restricted audit and monitoring"]
+  end
+  Office -->|Approved private route| API
+  Entra -.->|Tokens and metadata| API
+  API --> PE
+  Worker --> PE
+  DNS -.-> API
+  DNS -.-> Worker
+  PE --> DI
+  PE --> Queue
+  PE --> Originals
+  PE --> Outputs
+  PE --> Control
+  PE --> Vault
+  Worker -->|Content-free signals via approved path| Ops
+  API -->|Content-free signals via approved path| Ops
