@@ -41,6 +41,7 @@ The minimal reference topology uses an API and worker on Azure Government VMs, B
 | [Evaluation and operations](docs/evaluation-and-operations.md) | Proposed measures, release gates, failure recovery, production responsibilities |
 | [Azure Government verification](docs/azure-government-verification.md) | Current official evidence, endpoint mappings, unverified combinations and alternatives |
 | [Architecture decisions](docs/decision-records/README.md) | Small set of proposed decisions and tradeoffs |
+| [Executive summary](docs/executive-summary.md) | Non-technical 30s/2min story and executive-level anticipated questions |
 | [Interview guide](docs/interview-guide.md) | 90-second story, whiteboard route, answer outlines |
 | [Architecture explainer](docs/architecture-explainer.md) | Decision-by-decision rationale and likely follow-up questions, for live Q&A |
 | [Low-cost demo setup](docs/demo-setup.md) | Steps to build a working analog in your own commercial Azure subscription |
