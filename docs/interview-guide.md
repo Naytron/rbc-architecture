@@ -16,6 +16,42 @@ Use the first-person statements below only within the confirmed contribution bou
 
 ## Whiteboard walkthrough
 
+Use this when asked to "walk me through the architecture" at a whiteboard. It mirrors the four diagrams in [`diagrams/`](../diagrams/README.md) exactly, so what you sketch live stays consistent with what's checked into the repository.
+
+### Sketch 1 — System context (~60 seconds)
+
+1. Draw a **big dashed box** on the right, label it **"Azure Government — PROPOSED."** Say: *"Everything in this box is a proposal, not a claim about what was historically built."*
+2. Draw a **smaller box** on the left labeled **"Office."** Inside it, just write four labels (no detail yet): *Source documents, Document steward, Charging reviewer, Redaction specialist.*
+3. Draw one box inside the Gov boundary: **"Ingestion / Review API."** Arrow from *Steward* -> API. Say: *"Nothing enters except through this API, authenticated against Government Entra."*
+4. Draw a small box above the API: **"Government Entra ID,"** dotted arrow into API. Say: *"Separate identity authority from commercial Azure — different login endpoint, different tokens."*
+5. From the API, draw two arrows down into: **"Protected Originals"** and **"Pipeline (Extract -> Detect -> Render -> Validate)."** Arrow from Originals into Pipeline too.
+6. From Pipeline, one arrow labeled **"candidate only"** -> **"Approved Derivatives."** Say out loud: *"Nothing here is automatic — 'candidate' means not yet released."*
+7. Arrow from Derivatives back to API. Then draw *Reviewer* -> API labeled **"case-scoped access,"** and *Specialist* -> API labeled **"privileged review."**
+8. Last box, off to the side: **"Restricted Audit."** Dotted arrows in from API and Pipeline, labeled **"content-free signals."** Say: *"Audit logs what happened, never the sensitive content itself."*
+
+### Sketch 2 — Zoom into the Pipeline box (~45 seconds)
+
+Erase/circle the Pipeline box and redraw it bigger as four boxes in a row:
+
+**Extract -> Detect -> Render/Validate -> Hold or Publish**
+
+- Under **Extract**: *"Document Intelligence — text, layout, coordinates. Not redaction itself."*
+- Under **Detect**: *"Separate stage — rules/dictionary today, evaluated models later. Finds candidate spans."*
+- Under **Render/Validate**: *"Permanently removes content, strips metadata, then re-checks the output — not a drawn box."*
+- Draw a **diamond** after this labeled *"Passed?"* -> No goes to a **"Hold / Exception"** box; Yes goes to a **"Human approves?"** diamond -> No loops back to Hold; Yes -> **"Publish to reviewer."**
+- Say: *"Three ways to fail safe: bad extraction, failed validation, or no human sign-off — all three hold the document instead of releasing it."*
+
+### Sketch 3 — Processing sequence (optional, only if asked "how does this actually run")
+
+Draw a simple left-to-right timeline: **User -> API (202 Accepted) -> Queue -> Worker -> Document Intelligence -> back to Worker -> Store.**
+Say: *"The API returns immediately — it doesn't wait for analysis. Everything after that is asynchronous with retries, so a dropped connection never loses a document."*
+
+### The one sentence to say while drawing nothing
+
+*"Three boundaries matter more than any box: identity, where originals live versus derivatives, and the human gate before release — everything else is detail."*
+
+### Condensed order (if short on time)
+
 1. **Draw the boundary:** office/source -> Government API -> original/derivative stores. State that the source product and historical topology are unknown. Write "PROPOSED" above the design.
 2. **Separate identity and permission:** Government authority/custom audience; user case authorization versus worker service identity. Show original access as a distinct privilege.
 3. **Draw asynchronous work:** API acceptance -> durable ledger/outbox -> queue -> worker. Explain at-least-once delivery, checkpoints, bounded retries, and held/failed states.
